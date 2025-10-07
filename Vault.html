@@ -1,0 +1,24 @@
+<form method="GET", action="{{ url_for('vault') }}">
+    <input type="text" name="q" placeholder="Search..." value="{{ search_query or '' }}">
+    <select name="category">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat }}" {% if current_category == cat %}selected{% endif %}>{{ cat }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+<table>
+    <tr>
+        <th>Site</th><th>Username</th><th>Category</th>
+        <!--Your actions col here -->
+    </tr>
+        {% for item in items %}
+    <tr>
+        <td>{{ item.site }}</td>
+        <td>{{ item.vault_username }}</td>
+        <td>{{ item.category or '' }}</td>
+        <!--add edit/delete/view buttons/links here-->
+    </tr>
+    {% endfor %}
+</table>

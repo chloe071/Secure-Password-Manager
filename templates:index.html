@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Password Generator</title>
+    </head>
+    <body>
+        <h1>Password Generator</h1>
+        <form id="pwdForm">
+            <label for="length">Password Length (8-64):</label>
+            <input type="number" id="length" name="length" value="12" min="8" max="64" required /><br />
+
+            <label for="use_symbols">Include Symbols:</label>
+            <input type="checkbox" id="use_symbols" name="use_symbols" checked /><br />
+
+            <button type="submit">Generate Password</button>
+        </form>
+        <h2>Generated Password:</h2>
+        <p id="generatedPassword"></p>
+
+        <script>
+            document.getElementbyId('pwdForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const data = new URLSearchParams(formData);
+                
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: data
+                });
+
+                const result = await response.json();
+
+                if (result.password) {
+                    document.getElementById('generatedPassword').innerText = result.password;
+                } else {
+                    document.getElementById('generatedPassword').innerText = "Error generating password.";
+                }
+            });
+        </script>
+    </body>
+</html> 
