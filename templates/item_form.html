@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block title %}{{ 'Edit' if item else 'Add' }} item{% endblock %}
+{% block content %}
+<h1>{{ 'Edit' if item else 'Add' }} item</h1>
+<form method="POST" class="card">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Site <input name="site" maxlength="100" value="{{ item.site if item else '' }}" required></label>
+  <label>Username <input name="vault_username" maxlength="100" value="{{ item.vault_username if item else '' }}" required></label>
+  <label>Category <input name="category" maxlength="50" value="{{ (item.category or '') if item else '' }}"></label>
+  <label>Password{% if item %} (leave blank to keep current){% endif %}
+    <input id="password" name="password" type="password" autocomplete="new-password" {% if not item %}required{% endif %}>
+  </label>
+  <meter id="strengthMeter" min="0" max="6" value="0"></meter> <span id="strengthText"></span>
+  <button type="button" id="fillGenerated">Generate strong password</button>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

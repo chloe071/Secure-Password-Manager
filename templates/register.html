@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block title %}Register{% endblock %}
+{% block content %}
+<h1>Create account</h1>
+<form method="POST" class="card">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Username <input name="username" autocomplete="username" minlength="3" maxlength="80" required></label>
+  <label>Master password (12+ characters)
+    <input id="password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required>
+  </label>
+  <meter id="strengthMeter" min="0" max="6" value="0"></meter> <span id="strengthText"></span>
+  <p class="hint">Your master password encrypts your vault. It cannot be recovered if you forget it.</p>
+  <button type="submit">Register</button>
+</form>
+<p>Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+{% endblock %}

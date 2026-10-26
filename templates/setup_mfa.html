@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Enable MFA{% endblock %}
+{% block content %}
+<h1>Enable two-factor authentication</h1>
+<p>Scan this QR code with an authenticator app, then enter the 6-digit code to confirm.</p>
+<img class="qr" src="data:image/png;base64,{{ qr }}" alt="MFA QR code">
+<p>Or enter this secret manually: <code>{{ secret }}</code></p>
+<form method="POST" class="card">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>6-digit code <input name="token" inputmode="numeric" pattern="[0-9]{6}" required></label>
+  <button type="submit">Confirm and enable</button>
+</form>
+{% endblock %}

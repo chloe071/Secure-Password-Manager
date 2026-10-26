@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% block title %}Vault{% endblock %}
+{% block content %}
+<h1>{{ current_user.username }}'s vault</h1>
+<form method="GET" action="{{ url_for('vault') }}" class="filters">
+  <input type="text" name="q" placeholder="Search sites..." value="{{ search_query or '' }}">
+  <select name="category">
+    <option value="">All categories</option>
+    {% for cat in categories %}<option value="{{ cat }}" {% if current_category == cat %}selected{% endif %}>{{ cat }}</option>{% endfor %}
+  </select>
+  <button type="submit">Filter</button>
+</form>
+{% if items %}
+<table>
+  <tr><th>Site</th><th>Username</th><th>Category</th><th>Password</th><th>Actions</th></tr>
+  {% for item in items %}
+  <tr>
+    <td>{{ item.site }}</td>
+    <td>{{ item.vault_username }}</td>
+    <td>{{ item.category or '' }}</td>
+    <td><span class="secret" id="pw-{{ item.id }}">••••••••</span></td>
+    <td class="actions">
+      <button type="button" class="reveal-btn" data-id="{{ item.id }}" data-url="{{ url_for('reveal', item_id=item.id) }}">Show</button>
+      <button type="button" class="copy-btn" data-url="{{ url_for('reveal', item_id=item.id) }}">Copy</button>
+      <a href="{{ url_for('edit_item', item_id=item.id) }}">Edit</a>
+      <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" class="inline delete-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="danger">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<p class="hint">Copied passwords are cleared from your clipboard after 30 seconds.</p>
+{% else %}
+<p>No items yet. <a href="{{ url_for('add_item') }}">Add your first password.</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Password generator{% endblock %}
+{% block content %}
+<h1>Password generator</h1>
+<form id="pwdForm" class="card" data-url="{{ url_for('generate') }}">
+  <label>Length (8–64) <input type="number" name="length" value="16" min="8" max="64" required></label>
+  <label class="row"><input type="checkbox" name="use_symbols" checked> Include symbols</label>
+  <button type="submit">Generate</button>
+</form>
+<p><code id="generatedPassword"></code></p>
+{% endblock %}
