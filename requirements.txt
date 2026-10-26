@@ -4,5 +4,5 @@ Flask-Login>=0.6
 Flask-WTF>=1.2
 Flask-Limiter>=3.5
 cryptography>=42
-pyotp>=2.9
+pyotp>=2.10.0
 qrcode[pil]>=7.4
